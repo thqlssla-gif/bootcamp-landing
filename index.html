@@ -13,7 +13,8 @@
 <meta property="og:image" content="https://thqlssla-gif.github.io/bootcamp-landing/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:secure_url" content="https://thqlssla-gif.github.io/bootcamp-landing/og-image.png">
-
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://thqlssla-gif.github.io/bootcamp-landing/og-image.png">
 <meta name="twitter:title" content="국비 부트캠프 | 생성형 AI · 사이버 보안 · 클라우드">
@@ -286,7 +287,7 @@ body[data-c="cloud"] .term{--tp:#ffae76}
 @media(max-width:900px){.lab-grid{grid-template-columns:minmax(0,1fr)}.term-b{height:360px;font-size:12.5px;padding:14px 14px}}
 @media(prefers-reduced-motion:reduce){.cur{animation:none}}
 
-/* Legacy modal styling removed from active layout. */
+/* 기존 상담 모달 CSS는 화면 표시와 무관합니다. */
 .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex}
 .dim{position:absolute;inset:0;background:var(--dim)}
@@ -543,7 +544,7 @@ textarea.in{height:64px;padding:10px 12px;resize:none}
 </div>
 
 <script>
-// 모든 문의는 새 네이버폼으로 직접 연결됩니다.
+// 모든 문의는 네이버폼으로 직접 연결됩니다.
 var TRACKS = {
   ai: {name:"생성형 AI",
     l1:"AI를 쓰는 사람에서", l2:"<em>만드는 사람</em>으로",
@@ -942,7 +943,7 @@ var FX = (function(){
     var el = $(g.dataset.go); if(el) el.scrollIntoView({behavior:'smooth'});
   });
 
-  // 상담 버튼은 JavaScript가 없어도 열리는 네이버폼 링크입니다.
+  // 모든 상담 버튼은 네이버폼으로 바로 연결됩니다.
   var h = (location.hash || '').replace('#', '');
   setTrack(TRACKS[h] ? h : 'ai');
 })();
