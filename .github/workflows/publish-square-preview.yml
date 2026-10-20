@@ -1,0 +1,42 @@
+name: Publish square social preview
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-square-preview.yml'
+      - 'og-preview-dark-20261020.jpg'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Install Pillow
+        run: python -m pip install --quiet Pillow
+      - name: Create uncropped 1200x1200 preview
+        run: |
+          python - <<'PY'
+          from PIL import Image, ImageFilter
+          src = Image.open('og-preview-dark-20261020.jpg').convert('RGB')
+          size = 1200
+          # A dark blurred fill makes a square while keeping every word in frame.
+          blurred = src.resize((size, size), Image.Resampling.LANCZOS).filter(ImageFilter.GaussianBlur(65))
+          bg = Image.blend(blurred, Image.new('RGB',(size,size),'#070b20'), 0.65)
+          ratio = min(size/src.width, size/src.height)
+          fg = src.resize((round(src.width*ratio), round(src.height*ratio)), Image.Resampling.LANCZOS)
+          pos = ((size-fg.width)//2,(size-fg.height)//2)
+          bg.paste(fg,pos)
+          bg.save('og-preview-square-20261020.jpg',format='JPEG',quality=88,subsampling=0,optimize=True)
+          PY
+      - name: Commit preview image
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add og-preview-square-20261020.jpg
+          git diff --cached --quiet || (git commit -m "Publish square uncropped social thumbnail" && git push)
